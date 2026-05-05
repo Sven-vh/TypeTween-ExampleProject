@@ -1,0 +1,3 @@
+[submodule "Plugins/TypeTween"]
+	path = Plugins/TypeTween
+	url = https://github.com/Sven-vh/TypeTween
