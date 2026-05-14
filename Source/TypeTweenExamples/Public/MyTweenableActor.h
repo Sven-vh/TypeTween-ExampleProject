@@ -24,14 +24,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere, Category = "Tween")
+	UPROPERTY(EditAnywhere, Category = "TypeTween")
 	FTransform Offset;
 
-	UPROPERTY(EditAnywhere, Category = "Tween")
+	UPROPERTY(EditAnywhere, Category = "TypeTween")
 	FTweenConfig MovePreset;
-	UPROPERTY(EditAnywhere, Category = "Tween")
+	UPROPERTY(EditAnywhere, Category = "TypeTween")
 	FTweenConfig RotatePreset;
-	UPROPERTY(EditAnywhere, Category = "Tween")
+	UPROPERTY(EditAnywhere, Category = "TypeTween")
 	FTweenConfig ScalePreset;
 
 private:

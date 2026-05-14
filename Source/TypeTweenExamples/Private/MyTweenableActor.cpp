@@ -48,21 +48,30 @@ void AMyTweenableActor::CompileChecks() {
 		/* Pointer Tween */
 		{
 			/* Takes in an external pointer to a type and updates it */
-			static float my_float = 0.f;
+			float my_float = 0.0f;
 			TypeTween::Tween(my_float, this)
 				.From(0.0f)
-				.To(1.0f);
+				.To(10.0f)
+				.Duration(2.5f)
+				.Ease(ETweenEase::Linear);
 		}
 
 		/* Internal Tween */
 		{
 			/* Creates an internal value and updates it, no need to store it yourself */
 			/* Useful for when you just want a timer or alpha without an actual value to update */
+			
 			TypeTween::Tween<float>(this)
 				.From(0.0f)
 				.To(10.0f)
-				.Duration(20.f)
-				.Ease(ETweenEase::InOutCubic);
+				.Duration(2.5f)
+				.Ease(ETweenEase::Linear)
+				.OnUpdate([&](const float& value) {
+					// Every tick...
+				})
+				.OnComplete([]() {
+					// Done after 2.5 sec
+				});
 		}
 
 		/* Type Deduction Tween */
@@ -325,14 +334,38 @@ void AMyTweenableActor::CompileChecks() {
 				.From(FLinearColor::Yellow)
 				.To(FLinearColor::Blue)
 				/* Specify color interpolation mode: */
-				.LerpMode(EColorLerpMode::HSV)
-				//.ColorMode(EColorLerpMode::Oklab)
-				//.ColorMode(EColorLerpMode::sRGB)
-				//.ColorMode(EColorLerpMode::Linear)
+				.ColorSpace(EColorLerpMode::HSV)
+				//.ColorSpace(EColorLerpMode::Oklab)
+				//.ColorSpace(EColorLerpMode::sRGB)
+				//.ColorSpace(EColorLerpMode::Linear)
 				.Ease(ETweenEase::InOutSine)
 				.Duration(2.f)
 				.OnUpdate([](float t, const FLinearColor& value) {
 				UE_LOG(LogTemp, Log, TEXT("[Color Tween] t: %f, value: %s"), t, *value.ToString());
+					});
+		}
+	}
+
+	// =============
+	// FText
+	// =============
+	{
+		/* FText with custom lerp */
+		{
+			FText MyText;
+			TypeTween::Tween<FText>(this)
+				.From(FText::FromString("Hello"))
+				.To(FText::FromString("World"))
+				/* Specify Lerp Mode */
+				.Mode(ETextLerpMode::Reveal)
+				.Mode(ETextLerpMode::Scramble)
+				.Mode(ETextLerpMode::DeleteAndType)
+				.Mode(ETextLerpMode::EditDistance)
+				.Mode(ETextLerpMode::CharCode)
+				.Ease(ETweenEase::InOutSine)
+				.Duration(2.f)
+				.OnUpdate([](float t, const FText& value) {
+				UE_LOG(LogTemp, Log, TEXT("[FText Tween] t: %f, value: %s"), t, *value.ToString());
 					});
 		}
 	}
